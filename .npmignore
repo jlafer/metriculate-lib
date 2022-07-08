@@ -1,0 +1,2 @@
+# only here to work around issue where npm ignores dist/ during build
+# since it's in the .gitignore file

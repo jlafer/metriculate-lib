@@ -1,0 +1,25 @@
+{
+  "name": "metriculate-lib",
+  "version": "0.0.1",
+  "description": "Library of functions common to the metriculate project",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "npm run clean && babel ./src --out-dir dist --source-maps",
+    "clean": "rm -rf ./dist && mkdir dist",
+    "prepare": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "John Lafer",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.23.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/node": "^7.15.8",
+    "@babel/plugin-transform-runtime": "^7.15.8",
+    "@babel/preset-env": "^7.15.8"
+  }
+}
