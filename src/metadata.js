@@ -24,12 +24,21 @@ const measureToField = R.curry( (sequenceAdvance, measure, idx) => {
   return {name: measure.name, dataType: 'int32', seq: (sequenceAdvance + idx + 1)};
 } );
 
+const timeMeasureStateToField = R.curry( (sequenceAdvance, measure, idx) => {
+  const startTimeName = `${measure.state}StartTS`;
+  return {name: startTimeName, dataType: 'string', seq: (sequenceAdvance + idx + 1)};
+} );
+
+
 export const addFieldsForMeasures = (processKV) => {
   const [name, process] = processKV;
   const {fields: rawFlds, measures} = process;
-  const sequenceAdvance = R.last(rawFlds).seq;
+  let sequenceAdvance = R.last(rawFlds).seq;
   const measureFields = mapIndexed( measureToField(sequenceAdvance), measures );
-  const fieldsWithMeasures = [...rawFlds, ...measureFields];
+  sequenceAdvance = R.last(measureFields).seq;
+  const timestampFields = measures.filter(m => m.type === 'time')
+    .map( timeMeasureStateToField(sequenceAdvance) );
+  const fieldsWithMeasures = [...rawFlds, ...measureFields, ...timestampFields];
   const processWithMeasureFields = {...process, fields: fieldsWithMeasures};
   return [name, processWithMeasureFields];
 };
